@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getFeeStatus, addFeePayment } from "../services/api";
 import styles from "../modules/FeeStatus.module.css";
+import toast from "react-hot-toast";
 
 function FeeStatus() {
 
@@ -25,7 +26,7 @@ function FeeStatus() {
             setFees(res.data);
         } catch (err) {
             console.error(err);
-            alert("Unable to load fee status");
+            toast.error("Unable to load fee status");
         }
     };
 
@@ -64,7 +65,7 @@ function FeeStatus() {
 
             await addFeePayment(form);
 
-            alert("Payment Added Successfully");
+            toast.success("Payment Added Successfully");
 
             setForm(initialState);
 
@@ -74,7 +75,7 @@ function FeeStatus() {
 
             console.error(err);
 
-            alert("Payment Failed");
+            toast.error("Payment Failed");
 
         }
 

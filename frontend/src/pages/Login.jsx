@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "../modules/Login.module.css";
 
 import { login } from "../services/api";
+import toast from "react-hot-toast";
 
 function Login() {
 
@@ -37,19 +38,21 @@ function Login() {
 
             if (res.data.success) {
 
+                toast.success(res.data.message);
+
                 localStorage.setItem("user", JSON.stringify(res.data));
 
                 navigate("/dashboard");
 
             } else {
 
-                alert(res.data.message);
+                toast(res.data.message);
 
             }
 
         } catch (err) {
 
-            alert("Server Error",err);
+            toast.error("Server Error",err);
 
         } finally {
 

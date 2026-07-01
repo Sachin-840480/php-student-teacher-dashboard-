@@ -32,7 +32,7 @@ function AddTeacher() {
       setTeachers(res.data);
     } catch (err) {
       console.error(err);
-      toast("Unable to load teachers.");
+      toast.error("Unable to load teachers.");
     }
   };
 
@@ -54,17 +54,17 @@ function AddTeacher() {
     try {
       if (editing) {
         await updateTeacher(form);
-        toast("Teacher Updated Successfully");
+        toast.success("Teacher Updated Successfully");
       } else {
         await addTeacher(form);
-        toast("Teacher Added Successfully");
+        toast.success("Teacher Added Successfully");
       }
 
       clearForm();
       loadTeachers();
     } catch (err) {
       console.error(err);
-      toast("Operation Failed");
+      toast.error("Operation Failed");
     }
   };
 
@@ -86,7 +86,7 @@ function AddTeacher() {
       loadTeachers();
     } catch (err) {
       console.error(err);
-      toast("Delete Failed");
+      toast.error("Delete Failed");
     }
   };
 

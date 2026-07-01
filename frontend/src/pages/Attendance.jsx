@@ -35,7 +35,7 @@ function Attendance() {
 
         } catch {
 
-            toast("Unable to Load Students");
+            toast.error("Unable to Load Students");
 
         }
 
@@ -65,11 +65,11 @@ function Attendance() {
 
             await markAttendance(payload);
 
-            toast("Attendance Saved Successfully");
+            toast.success("Attendance Saved Successfully");
 
         } catch {
 
-            toast("Attendance Save Failed");
+            toast.error("Attendance Save Failed");
 
         }
 

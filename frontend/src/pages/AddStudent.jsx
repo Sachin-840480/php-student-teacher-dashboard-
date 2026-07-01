@@ -56,17 +56,17 @@ function AddStudent() {
     try {
       if (editing) {
         await updateStudent(form);
-        toast("Student Updated Successfully");
+        toast.success("Student Updated Successfully");
       } else {
         await addStudent(form);
-        toast("Student Added Successfully");
+        toast.success("Student Added Successfully");
       }
 
       clearForm();
       loadStudents();
     } catch (err) {
       console.error(err);
-      toast("Operation Failed");
+      toast.error("Operation Failed");
     }
   };
 
@@ -92,7 +92,7 @@ function AddStudent() {
       loadStudents();
     } catch (err) {
       console.error(err);
-      toast("Delete Failed");
+      toast.error("Delete Failed");
     }
   };
 

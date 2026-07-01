@@ -17,17 +17,28 @@ switch ($method) {
 
     case "GET":
 
-        $sql = "SELECT * FROM students ORDER BY student_id DESC";
+        if(isset($_GET["id"])){
 
-        $result = $conn->query($sql);
+            $stmt=$conn->prepare("SELECT * FROM students WHERE student_id=?");
+            $stmt->bind_param("i",$_GET["id"]);
+            $stmt->execute();
 
-        $students = [];
+            $result=$stmt->get_result();
 
-        while ($row = $result->fetch_assoc()) {
-            $students[] = $row;
+            echo json_encode($result->fetch_assoc());
+
+        }else{
+
+            $result=$conn->query("SELECT * FROM students ORDER BY student_name");
+
+            $students=[];
+
+            while($row=$result->fetch_assoc()){
+                $students[]=$row;
+            }
+
+            echo json_encode($students);
         }
-
-        echo json_encode($students);
 
         break;
 

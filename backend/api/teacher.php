@@ -17,7 +17,21 @@ switch($method){
 
 case "GET":
 
-$result=$conn->query("SELECT * FROM teachers ORDER BY teacher_id DESC");
+if(isset($_GET["id"])){
+
+$stmt=$conn->prepare("SELECT * FROM teachers WHERE teacher_id=?");
+
+$stmt->bind_param("i",$_GET["id"]);
+
+$stmt->execute();
+
+$result=$stmt->get_result();
+
+echo json_encode($result->fetch_assoc());
+
+}else{
+
+$result=$conn->query("SELECT * FROM teachers ORDER BY teacher_name");
 
 $data=[];
 
@@ -26,6 +40,8 @@ $data[]=$row;
 }
 
 echo json_encode($data);
+
+}
 
 break;
 

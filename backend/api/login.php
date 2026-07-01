@@ -5,22 +5,22 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+if($_SERVER["REQUEST_METHOD"]=="OPTIONS"){
     exit;
 }
 
 include("../config/database.php");
 
-$data = json_decode(file_get_contents("php://input"), true);
+$data=json_decode(file_get_contents("php://input"),true);
 
-$username = trim($data['username']);
-$password = trim($data['password']);
+$username=trim($data["username"]);
+$password=trim($data["password"]);
 
-$stmt = $conn->prepare("SELECT * FROM users WHERE username=?");
-$stmt->bind_param("s", $username);
+$stmt=$conn->prepare("SELECT * FROM users WHERE username=?");
+$stmt->bind_param("s",$username);
 $stmt->execute();
 
-$result = $stmt->get_result();
+$result=$stmt->get_result();
 
 if($result->num_rows==0){
 
@@ -28,18 +28,18 @@ if($result->num_rows==0){
         "success"=>false,
         "message"=>"Invalid Username"
     ]);
+
     exit;
 }
 
-$user = $result->fetch_assoc();
+$user=$result->fetch_assoc();
 
-if($password==$user['password']){
+if(password_verify($password,$user["password"])){
 
     echo json_encode([
         "success"=>true,
         "message"=>"Login Successful",
-        "user"=>$user['username'],
-        "role"=>$user['role']
+        "role"=>$user["role"]
     ]);
 
 }else{
@@ -48,7 +48,6 @@ if($password==$user['password']){
         "success"=>false,
         "message"=>"Wrong Password"
     ]);
-
 }
 
 $conn->close();

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getFeeStatus, addFeePayment } from "../services/api";
-import styles from "./FeeStatus.module.css";
+import styles from "../modules/FeeStatus.module.css";
 
 function FeeStatus() {
 

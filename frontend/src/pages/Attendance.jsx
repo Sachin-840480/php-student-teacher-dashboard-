@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getStudents, markAttendance } from "../services/api";
-import styles from "./Attendance.module.css";
+import styles from "../modules/Attendance.css";
 
 function Attendance() {
 

@@ -1,29 +1,32 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import AddStudent from "./pages/AddStudent";
+import AddTeacher from "./pages/AddTeacher";
+import FeeStatus from "./pages/FeeStatus";
+import Attendance from "./pages/Attendance";
 
-function App(){
+function App() {
+    return (
+        <Routes>
 
-return(
+            <Route path="/" element={<Login />} />
 
-<BrowserRouter>
+            <Route path="/dashboard" element={<Dashboard />} />
 
-<Routes>
+            <Route path="/students" element={<AddStudent />} />
 
-<Route path="/" element={<Login/>}/>
+            <Route path="/teachers" element={<AddTeacher />} />
 
-<Route path="/dashboard" element={<Dashboard/>}/>
+            <Route path="/fees" element={<FeeStatus />} />
 
-<Route path="/add-student" element={<AddStudent/>}/>
+            <Route path="/attendance" element={<Attendance />} />
 
-</Routes>
+            <Route path="*" element={<Navigate to="/" />} />
 
-</BrowserRouter>
-
-)
-
+        </Routes>
+    );
 }
 
 export default App;

@@ -6,7 +6,7 @@ import {
   deleteStudent,
 } from "../services/api";
 
-import styles from "../modules/AddStudent.module.css";
+import styles from "../modules/AddStudent.css";
 
 function AddStudent() {
   const initialState = {

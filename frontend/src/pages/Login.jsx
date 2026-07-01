@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import styles from "./Login.module.css";
+import styles from "../modules/Login.module.css";
 
 import { login } from "../services/api";
 

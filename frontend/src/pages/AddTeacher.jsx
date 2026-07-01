@@ -6,7 +6,7 @@ import {
   deleteTeacher,
 } from "../services/api";
 
-import styles from "../modules/AddTeacher.css";
+import styles from "../modules/AddTeacher.module.css";
 
 function AddTeacher() {
   const initialState = {

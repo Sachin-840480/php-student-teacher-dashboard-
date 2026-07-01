@@ -5,7 +5,7 @@ import {
   updateTeacher,
   deleteTeacher,
 } from "../services/api";
-
+import toast from 'react-hot-toast';
 import styles from "../modules/AddTeacher.module.css";
 
 function AddTeacher() {
@@ -32,7 +32,7 @@ function AddTeacher() {
       setTeachers(res.data);
     } catch (err) {
       console.error(err);
-      alert("Unable to load teachers.");
+      toast.error("Unable to load teachers.");
     }
   };
 
@@ -54,17 +54,17 @@ function AddTeacher() {
     try {
       if (editing) {
         await updateTeacher(form);
-        alert("Teacher Updated Successfully");
+        toast.success("Teacher Updated Successfully");
       } else {
         await addTeacher(form);
-        alert("Teacher Added Successfully");
+        toast.success("Teacher Added Successfully");
       }
 
       clearForm();
       loadTeachers();
     } catch (err) {
       console.error(err);
-      alert("Operation Failed");
+      toast.error("Operation Failed");
     }
   };
 
@@ -86,7 +86,7 @@ function AddTeacher() {
       loadTeachers();
     } catch (err) {
       console.error(err);
-      alert("Delete Failed");
+      toast.error("Delete Failed");
     }
   };
 

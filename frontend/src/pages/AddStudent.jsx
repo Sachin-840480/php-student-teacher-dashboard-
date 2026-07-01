@@ -5,7 +5,7 @@ import {
   updateStudent,
   deleteStudent,
 } from "../services/api";
-
+import toast from 'react-hot-toast';
 import styles from "../modules/AddStudent.module.css";
 
 function AddStudent() {
@@ -34,7 +34,7 @@ function AddStudent() {
       setStudents(res.data);
     } catch (err) {
       console.error(err);
-      alert("Unable to load students.");
+      toast("Unable to load students.");
     }
   };
 
@@ -56,17 +56,17 @@ function AddStudent() {
     try {
       if (editing) {
         await updateStudent(form);
-        alert("Student Updated Successfully");
+        toast.success("Student Updated Successfully");
       } else {
         await addStudent(form);
-        alert("Student Added Successfully");
+        toast.success("Student Added Successfully");
       }
 
       clearForm();
       loadStudents();
     } catch (err) {
       console.error(err);
-      alert("Operation Failed");
+      toast.error("Operation Failed");
     }
   };
 
@@ -92,7 +92,7 @@ function AddStudent() {
       loadStudents();
     } catch (err) {
       console.error(err);
-      alert("Delete Failed");
+      toast.error("Delete Failed");
     }
   };
 

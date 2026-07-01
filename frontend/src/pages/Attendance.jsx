@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getStudents, markAttendance } from "../services/api";
 import styles from "../modules/Attendance.module.css";
+import toast from 'react-hot-toast';
 
 function Attendance() {
 
@@ -34,7 +35,7 @@ function Attendance() {
 
         } catch {
 
-            alert("Unable to Load Students");
+            toast("Unable to Load Students");
 
         }
 
@@ -64,11 +65,11 @@ function Attendance() {
 
             await markAttendance(payload);
 
-            alert("Attendance Saved Successfully");
+            toast("Attendance Saved Successfully");
 
         } catch {
 
-            alert("Attendance Save Failed");
+            toast("Attendance Save Failed");
 
         }
 

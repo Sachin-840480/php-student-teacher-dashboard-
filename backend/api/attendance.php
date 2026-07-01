@@ -37,23 +37,68 @@ break;
 
 case "POST":
 
-$data=json_decode(file_get_contents("php://input"),true);
+$data = json_decode(file_get_contents("php://input"), true);
 
-$stmt=$conn->prepare("INSERT INTO attendance(student_id,attendance_date,status)
-VALUES(?,?,?)");
+/*
+|--------------------------------------------------------------------------
+| Check if attendance already exists
+|--------------------------------------------------------------------------
+*/
+
+$check = $conn->prepare("
+SELECT attendance_id
+FROM attendance
+WHERE student_id = ?
+AND attendance_date = ?
+");
+
+$check->bind_param(
+    "is",
+    $data["student_id"],
+    $data["attendance_date"]
+);
+
+$check->execute();
+
+$result = $check->get_result();
+
+if($result->num_rows > 0){
+
+    echo json_encode([
+        "success" => false,
+        "message" => "Attendance Already Marked"
+    ]);
+
+    break;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Insert attendance
+|--------------------------------------------------------------------------
+*/
+
+$stmt = $conn->prepare("
+INSERT INTO attendance(
+student_id,
+attendance_date,
+status
+)
+VALUES(?,?,?)
+");
 
 $stmt->bind_param(
-"iss",
-$data['student_id'],
-$data['attendance_date'],
-$data['status']
+    "iss",
+    $data["student_id"],
+    $data["attendance_date"],
+    $data["status"]
 );
 
 $stmt->execute();
 
 echo json_encode([
-"success"=>true,
-"message"=>"Attendance Saved"
+    "success" => true,
+    "message" => "Attendance Saved"
 ]);
 
 break;

@@ -39,62 +39,46 @@ case "POST":
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-/*
-|--------------------------------------------------------------------------
-| Check if attendance already exists
-|--------------------------------------------------------------------------
-*/
+foreach ($data as $attendance) {
 
-$check = $conn->prepare("
-SELECT attendance_id
-FROM attendance
-WHERE student_id = ?
-AND attendance_date = ?
-");
+    $check = $conn->prepare("
+        SELECT attendance_id
+        FROM attendance
+        WHERE student_id = ?
+        AND attendance_date = ?
+    ");
 
-$check->bind_param(
-    "is",
-    $data["student_id"],
-    $data["attendance_date"]
-);
+    $check->bind_param(
+        "is",
+        $attendance["student_id"],
+        $attendance["attendance_date"]
+    );
 
-$check->execute();
+    $check->execute();
 
-$result = $check->get_result();
+    $result = $check->get_result();
 
-if($result->num_rows > 0){
+    if ($result->num_rows == 0) {
 
-    echo json_encode([
-        "success" => false,
-        "message" => "Attendance Already Marked"
-    ]);
+        $stmt = $conn->prepare("
+            INSERT INTO attendance(
+                student_id,
+                attendance_date,
+                status
+            )
+            VALUES(?,?,?)
+        ");
 
-    break;
+        $stmt->bind_param(
+            "iss",
+            $attendance["student_id"],
+            $attendance["attendance_date"],
+            $attendance["status"]
+        );
+
+        $stmt->execute();
+    }
 }
-
-/*
-|--------------------------------------------------------------------------
-| Insert attendance
-|--------------------------------------------------------------------------
-*/
-
-$stmt = $conn->prepare("
-INSERT INTO attendance(
-student_id,
-attendance_date,
-status
-)
-VALUES(?,?,?)
-");
-
-$stmt->bind_param(
-    "iss",
-    $data["student_id"],
-    $data["attendance_date"],
-    $data["status"]
-);
-
-$stmt->execute();
 
 echo json_encode([
     "success" => true,

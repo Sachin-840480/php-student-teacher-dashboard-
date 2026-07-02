@@ -1,4 +1,4 @@
-import Sidebar from "./Sidebar";
+//import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
 
 import styles from "../modules/Layout.module.css";
@@ -7,7 +7,7 @@ function Layout({ children }) {
     return (
         <div className={styles.layout}>
 
-            <Sidebar />
+            {/* <Sidebar /> */}
 
             <div className={styles.main}>
 

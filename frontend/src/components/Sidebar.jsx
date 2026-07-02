@@ -2,59 +2,65 @@ import { X } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import styles from "../modules/Sidebar.module.css";
 
-function Sidebar({ open,setOpen }) {
+import {
+  Home,
+  Users,
+  UserCog,
+  Wallet,
+  CalendarCheck,
+  LogOut,
+} from "lucide-react";
 
-    return(
+function Sidebar({ open, setOpen }) {
+  return (
+    <>
+      <div
+        className={`${styles.overlay} ${open ? styles.showOverlay : ""}`}
+        onClick={() => setOpen(false)}
+      />
 
-        <>
-
-        <div
-
-            className={`${styles.overlay} ${
-                open ? styles.showOverlay : ""
-            }`}
-
-            onClick={()=>setOpen(false)}
-
-        />
-
-        <aside
-
-            className={`${styles.sidebar}
+      <aside
+        className={`${styles.sidebar}
             ${open ? styles.show : ""}`}
+      >
+        <button className={styles.close} onClick={() => setOpen(false)}>
+          <X size={22} />
+        </button>
 
-        >
+        <h2>Dashboard</h2>
 
-            <button
+        <NavLink to="/dashboard">
+          <Home size={18} />
+          <span>Dashboard</span>
+        </NavLink>
 
-                className={styles.close}
+        <NavLink to="/students">
+          <Users size={18} />
+          <span>Students</span>
+        </NavLink>
 
-                onClick={()=>setOpen(false)}
+        <NavLink to="/teachers">
+          <UserCog size={18} />
+          <span>Teachers</span>
+        </NavLink>
 
-            >
+        <NavLink to="/fees">
+          <Wallet size={18} />
+          <span>Fee Status</span>
+        </NavLink>
 
-                <X size={22}/>
+        <NavLink to="/attendance">
+          <CalendarCheck size={18} />
+          <span>Attendance</span>
+        </NavLink>
 
-            </button>
-
-            <h2>Dashboard</h2>
-
-            <NavLink to="/dashboard">Home</NavLink>
-
-            <NavLink to="/students">Students</NavLink>
-
-            <NavLink to="/teachers">Teachers</NavLink>
-
-            <NavLink to="/fees">Fee Status</NavLink>
-
-            <NavLink to="/attendance">Attendance</NavLink>
-
-        </aside>
-
-        </>
-
-    );
-
+        <button className={styles.logout}>
+          <LogOut size={18} />
+          <span>Logout</span>
+        </button>
+      </aside>
+    </>
+  );
 }
 
 export default Sidebar;

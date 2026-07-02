@@ -1,112 +1,144 @@
-.sidebar{
+.sidebar {
 
-    width:260px;
-    background:#1e293b;
-    color:white;
-    padding:30px;
+    width: 260px;
+    background: #1e293b;
+    color: white;
+    padding: 30px;
 
-    min-height:100vh;
-
-}
-
-.sidebar h2{
-
-    margin-bottom:35px;
+    min-height: 100vh;
 
 }
 
-.sidebar a{
+.sidebar h2 {
 
-    display:block;
-    padding:14px;
-    border-radius:8px;
-    margin-bottom:10px;
+    margin-bottom: 35px;
+
+}
+
+.sidebar a {
+
+    display: block;
+    padding: 14px;
+    border-radius: 8px;
+    margin-bottom: 10px;
 
 }
 
 .sidebar a:hover,
-.sidebar a.active{
+.sidebar a.active {
 
-    background:#2563eb;
-
-}
-
-.close{
-
-    display:none;
+    background: #2563eb;
 
 }
 
-.overlay{
+.close {
 
-    display:none;
-
-}
-
-@media(max-width:768px){
-
-.sidebar{
-
-    position:fixed;
-
-    top:0;
-
-    left:-260px;
-
-    width:260px;
-
-    height:100vh;
-
-    z-index:1000;
-
-    transition:.3s;
+    display: none;
 
 }
 
-.show{
+.overlay {
 
-    left:0;
-
-}
-
-.overlay{
-
-    position:fixed;
-
-    inset:0;
-
-    background:rgba(0,0,0,.45);
-
-    z-index:999;
-
-    display:none;
+    display: none;
 
 }
 
-.showOverlay{
+.sidebar a,
+.logout {
 
-    display:block;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 14px;
+
+    border-radius: 8px;
+
+    text-decoration: none;
+
+    color: white;
+
+}
+
+.logout {
+
+    width: 100%;
+    margin-top: auto;
+
+    border: none;
+
+    background: none;
+
+    cursor: pointer;
+
+    font-size: 16px;
 
 }
 
-.close{
+@media(max-width:768px) {
 
-    display:block;
+    .sidebar {
 
-    position:absolute;
+        position: fixed;
 
-    right:15px;
+        top: 0;
 
-    top:15px;
+        left: -260px;
 
-    background:none;
+        width: 260px;
 
-    border:none;
+        height: 100vh;
 
-    color:white;
+        z-index: 1000;
 
-    cursor:pointer;
+        transition: .3s;
 
-}
+    }
+
+    .show {
+
+        left: 0;
+
+    }
+
+    .overlay {
+
+        position: fixed;
+
+        inset: 0;
+
+        background: rgba(0, 0, 0, .45);
+
+        z-index: 999;
+
+        display: none;
+
+    }
+
+    .showOverlay {
+
+        display: block;
+
+    }
+
+    .close {
+
+        display: block;
+
+        position: absolute;
+
+        right: 15px;
+
+        top: 15px;
+
+        background: none;
+
+        border: none;
+
+        color: white;
+
+        cursor: pointer;
+
+    }
 
 }

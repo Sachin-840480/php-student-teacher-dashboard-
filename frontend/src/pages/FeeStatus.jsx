@@ -129,7 +129,7 @@ function FeeStatus() {
 
         <div className={styles.tableContainer}>
           <h2>Fee Status</h2>
-
+          <div className={styles.tableWrapper}>
           <table>
             <thead>
               <tr>
@@ -175,6 +175,7 @@ function FeeStatus() {
               )}
             </tbody>
           </table>
+          </div>
         </div>
       </div>
     </Layout>

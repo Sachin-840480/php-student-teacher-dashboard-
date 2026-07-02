@@ -77,15 +77,26 @@ border-radius:12px;
 
 .tableWrapper{
 
-overflow-x:auto;
+    width:100%;
+
+    overflow-x:auto;
+
+    -webkit-overflow-scrolling:touch;
 
 }
 
+
 table{
 
-min-width:900px;
+    width:100%;
 
-}.backBtn{
+    min-width:900px;
+
+    border-collapse:collapse;
+
+}
+
+.backBtn{
 
     background:#2563eb;
 

@@ -5,8 +5,9 @@ import {
   updateTeacher,
   deleteTeacher,
 } from "../services/api";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
 import styles from "../modules/AddTeacher.module.css";
+import Layout from "../components/Layout";
 
 function AddTeacher() {
   const initialState = {
@@ -91,137 +92,137 @@ function AddTeacher() {
   };
 
   return (
-    <div className={styles.container}>
-      <h1>Add Teacher</h1>
+    <Layout>
+      <div className={styles.container}>
+        <h1>Add Teacher</h1>
 
-      <form className={styles.form} onSubmit={handleSubmit}>
-        <div className={styles.grid}>
-          <div>
-            <label>Teacher Name</label>
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <div className={styles.grid}>
+            <div>
+              <label>Teacher Name</label>
 
-            <input
-              type="text"
-              name="teacher_name"
-              value={form.teacher_name}
-              onChange={handleChange}
-              required
-            />
+              <input
+                type="text"
+                name="teacher_name"
+                value={form.teacher_name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div>
+              <label>Mobile</label>
+
+              <input
+                type="text"
+                name="mobile"
+                value={form.mobile}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div>
+              <label>Subject</label>
+
+              <input
+                type="text"
+                name="subject"
+                value={form.subject}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div>
+              <label>Salary</label>
+
+              <input
+                type="number"
+                name="salary"
+                value={form.salary}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className={styles.full}>
+              <label>Address</label>
+
+              <textarea
+                rows="3"
+                name="address"
+                value={form.address}
+                onChange={handleChange}
+              />
+            </div>
           </div>
 
-          <div>
-            <label>Mobile</label>
-
-            <input
-              type="text"
-              name="mobile"
-              value={form.mobile}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div>
-            <label>Subject</label>
-
-            <input
-              type="text"
-              name="subject"
-              value={form.subject}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div>
-            <label>Salary</label>
-
-            <input
-              type="number"
-              name="salary"
-              value={form.salary}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className={styles.full}>
-            <label>Address</label>
-
-            <textarea
-              rows="3"
-              name="address"
-              value={form.address}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-
-        <div className={styles.buttons}>
-          <button type="submit">
-            {editing ? "Update Teacher" : "Add Teacher"}
-          </button>
-
-          {editing && (
-            <button
-              type="button"
-              className={styles.cancel}
-              onClick={clearForm}
-            >
-              Cancel
+          <div className={styles.buttons}>
+            <button type="submit">
+              {editing ? "Update Teacher" : "Add Teacher"}
             </button>
-          )}
-        </div>
-      </form>
 
-      <div className={styles.tableContainer}>
-        <h2>Teacher List</h2>
-
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Mobile</th>
-              <th>Subject</th>
-              <th>Salary</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {teachers.length === 0 ? (
-              <tr>
-                <td colSpan="5">No Teachers Found</td>
-              </tr>
-            ) : (
-              teachers.map((teacher) => (
-                <tr key={teacher.teacher_id}>
-                  <td>{teacher.teacher_name}</td>
-                  <td>{teacher.mobile}</td>
-                  <td>{teacher.subject}</td>
-                  <td>₹ {teacher.salary}</td>
-
-                  <td>
-                    <button
-                      className={styles.edit}
-                      onClick={() => handleEdit(teacher)}
-                    >
-                      Edit
-                    </button>
-
-                    <button
-                      className={styles.delete}
-                      onClick={() =>
-                        handleDelete(teacher.teacher_id)
-                      }
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))
+            {editing && (
+              <button
+                type="button"
+                className={styles.cancel}
+                onClick={clearForm}
+              >
+                Cancel
+              </button>
             )}
-          </tbody>
-        </table>
+          </div>
+        </form>
+
+        <div className={styles.tableContainer}>
+          <h2>Teacher List</h2>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Mobile</th>
+                <th>Subject</th>
+                <th>Salary</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {teachers.length === 0 ? (
+                <tr>
+                  <td colSpan="5">No Teachers Found</td>
+                </tr>
+              ) : (
+                teachers.map((teacher) => (
+                  <tr key={teacher.teacher_id}>
+                    <td>{teacher.teacher_name}</td>
+                    <td>{teacher.mobile}</td>
+                    <td>{teacher.subject}</td>
+                    <td>₹ {teacher.salary}</td>
+
+                    <td>
+                      <button
+                        className={styles.edit}
+                        onClick={() => handleEdit(teacher)}
+                      >
+                        Edit
+                      </button>
+
+                      <button
+                        className={styles.delete}
+                        onClick={() => handleDelete(teacher.teacher_id)}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 }
 

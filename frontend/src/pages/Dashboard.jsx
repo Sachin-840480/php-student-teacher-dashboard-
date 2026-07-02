@@ -1,71 +1,50 @@
 import { Link } from "react-router-dom";
 
 import styles from "../modules/Dashboard.module.css";
+import Layout from "../components/Layout";
 
 function Dashboard() {
+  const user = JSON.parse(localStorage.getItem("user"));
 
-    const user = JSON.parse(localStorage.getItem("user"));
+  return (
+    <Layout>
+      <div className={styles.container}>
+        <aside className={styles.sidebar}>
+          <h2>Dashboard</h2>
 
-    return (
+          <Link to="/students">Students</Link>
 
-        <div className={styles.container}>
+          <Link to="/teachers">Teachers</Link>
 
-            <aside className={styles.sidebar}>
+          <Link to="/fees">Fee Status</Link>
 
-                <h2>Dashboard</h2>
+          <Link to="/attendance">Attendance</Link>
+        </aside>
 
-                <Link to="/students">Students</Link>
+        <main className={styles.content}>
+          <h1>Welcome {user?.user}</h1>
 
-                <Link to="/teachers">Teachers</Link>
+          <div className={styles.cards}>
+            <Link className={styles.card} to="/students">
+              Add Student
+            </Link>
 
-                <Link to="/fees">Fee Status</Link>
+            <Link className={styles.card} to="/teachers">
+              Add Teacher
+            </Link>
 
-                <Link to="/attendance">Attendance</Link>
+            <Link className={styles.card} to="/fees">
+              Fee Status
+            </Link>
 
-            </aside>
-
-            <main className={styles.content}>
-
-                <h1>
-
-                    Welcome {user?.user}
-
-                </h1>
-
-                <div className={styles.cards}>
-
-                    <Link className={styles.card} to="/students">
-
-                        Add Student
-
-                    </Link>
-
-                    <Link className={styles.card} to="/teachers">
-
-                        Add Teacher
-
-                    </Link>
-
-                    <Link className={styles.card} to="/fees">
-
-                        Fee Status
-
-                    </Link>
-
-                    <Link className={styles.card} to="/attendance">
-
-                        Attendance
-
-                    </Link>
-
-                </div>
-
-            </main>
-
-        </div>
-
-    );
-
+            <Link className={styles.card} to="/attendance">
+              Attendance
+            </Link>
+          </div>
+        </main>
+      </div>
+    </Layout>
+  );
 }
 
 export default Dashboard;

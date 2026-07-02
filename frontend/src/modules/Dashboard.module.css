@@ -95,3 +95,30 @@
     color:white;
 
 }
+
+
+.backBtn{
+
+    background:#2563eb;
+
+    color:white;
+
+    border:none;
+
+    padding:10px 18px;
+
+    border-radius:6px;
+
+    cursor:pointer;
+
+    margin-bottom:20px;
+
+    transition:.3s;
+
+}
+
+.backBtn:hover{
+
+    background:#1d4ed8;
+
+}

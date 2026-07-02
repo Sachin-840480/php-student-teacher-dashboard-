@@ -1,26 +1,16 @@
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import styles from "../modules/Dashboard.module.css";
 import Layout from "../components/Layout";
 
 function Dashboard() {
+  const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
 
   return (
     <Layout>
       <div className={styles.container}>
-        <aside className={styles.sidebar}>
-          <h2>Dashboard</h2>
-
-          <Link to="/students">Students</Link>
-
-          <Link to="/teachers">Teachers</Link>
-
-          <Link to="/fees">Fee Status</Link>
-
-          <Link to="/attendance">Attendance</Link>
-        </aside>
-
         <main className={styles.content}>
           <h1>Welcome {user?.user}</h1>
 

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   addStudent,
   getStudents,
@@ -10,6 +11,7 @@ import styles from "../modules/AddStudent.module.css";
 import Layout from "../components/Layout";
 
 function AddStudent() {
+  const navigate = useNavigate();
   const initialState = {
     student_id: "",
     student_name: "",
@@ -100,6 +102,9 @@ function AddStudent() {
   return (
     <Layout>
       <div className={styles.container}>
+        <button className={styles.backBtn} onClick={() => navigate(-1)}>
+          ← Back
+        </button>
         <h1>Add Student</h1>
 
         <form className={styles.form} onSubmit={handleSubmit}>
@@ -207,53 +212,54 @@ function AddStudent() {
 
         <div className={styles.tableContainer}>
           <h2>Student List</h2>
-
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Father</th>
-                <th>Mobile</th>
-                <th>Activity</th>
-                <th>Fee</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {students.length === 0 ? (
+          <div className={styles.tableWrapper}>
+            <table>
+              <thead>
                 <tr>
-                  <td colSpan="6">No Students Found</td>
+                  <th>Name</th>
+                  <th>Father</th>
+                  <th>Mobile</th>
+                  <th>Activity</th>
+                  <th>Fee</th>
+                  <th>Action</th>
                 </tr>
-              ) : (
-                students.map((student) => (
-                  <tr key={student.student_id}>
-                    <td>{student.student_name}</td>
-                    <td>{student.father_name}</td>
-                    <td>{student.mobile}</td>
-                    <td>{student.activity}</td>
-                    <td>₹ {student.fee}</td>
+              </thead>
 
-                    <td>
-                      <button
-                        className={styles.edit}
-                        onClick={() => handleEdit(student)}
-                      >
-                        Edit
-                      </button>
-
-                      <button
-                        className={styles.delete}
-                        onClick={() => handleDelete(student.student_id)}
-                      >
-                        Delete
-                      </button>
-                    </td>
+              <tbody>
+                {students.length === 0 ? (
+                  <tr>
+                    <td colSpan="6">No Students Found</td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                ) : (
+                  students.map((student) => (
+                    <tr key={student.student_id}>
+                      <td>{student.student_name}</td>
+                      <td>{student.father_name}</td>
+                      <td>{student.mobile}</td>
+                      <td>{student.activity}</td>
+                      <td>₹ {student.fee}</td>
+
+                      <td>
+                        <button
+                          className={styles.edit}
+                          onClick={() => handleEdit(student)}
+                        >
+                          Edit
+                        </button>
+
+                        <button
+                          className={styles.delete}
+                          onClick={() => handleDelete(student.student_id)}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </Layout>

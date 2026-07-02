@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   addTeacher,
   getTeachers,
@@ -10,6 +11,7 @@ import styles from "../modules/AddTeacher.module.css";
 import Layout from "../components/Layout";
 
 function AddTeacher() {
+  const navigate = useNavigate();
   const initialState = {
     teacher_id: "",
     teacher_name: "",
@@ -94,6 +96,9 @@ function AddTeacher() {
   return (
     <Layout>
       <div className={styles.container}>
+        <button className={styles.backBtn} onClick={() => navigate(-1)}>
+          ← Back
+        </button>
         <h1>Add Teacher</h1>
 
         <form className={styles.form} onSubmit={handleSubmit}>

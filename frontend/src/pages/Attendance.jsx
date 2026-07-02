@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { getStudents, markAttendance } from "../services/api";
 import styles from "../modules/Attendance.module.css";
 import toast from "react-hot-toast";
 import Layout from "../components/Layout";
 
 function Attendance() {
+  const navigate = useNavigate();
   const today = new Date().toISOString().split("T")[0];
 
   const [date, setDate] = useState(today);
@@ -58,6 +60,9 @@ function Attendance() {
   return (
     <Layout>
       <div className={styles.container}>
+        <button className={styles.backBtn} onClick={() => navigate(-1)}>
+          ← Back
+        </button>
         <h1>Attendance</h1>
 
         <div className={styles.top}>

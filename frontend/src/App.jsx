@@ -9,6 +9,7 @@ import AddTeacher from "./features/teachers/pages/AddTeacher";
 import TeacherList from "./features/teachers/pages/TeacherList";
 import FeeStatus from "./features/fees/pages/FeeStatus";
 import Attendance from "./features/attendance/pages/Attendance";
+import FaceAttendance from "./features/attendance/pages/FaceAttendance";
 
 function App() {
   return (
@@ -22,13 +23,15 @@ function App() {
 
         <Route path="/students" element={<AddStudent />} />
         <Route path="/students/list" element={<StudentList />} />
-       
+
         <Route path="/teachers" element={<AddTeacher />} />
         <Route path="/teachers/list" element={<TeacherList />} />
-        
+
         <Route path="/fees" element={<FeeStatus />} />
 
         <Route path="/attendance" element={<Attendance />} />
+
+        <Route path="/face-attendance" element={<FaceAttendance />} />
       </Routes>
     </>
   );

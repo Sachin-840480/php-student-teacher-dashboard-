@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getStudents, markAttendance } from "../services/api";
-import styles from "../modules/Attendance.module.css";
+import styles from "../styles/Attendance.module.css";
 import toast from "react-hot-toast";
-import Layout from "../components/Layout";
+import Layout from "../../../components/common/Layout";
 
 function Attendance() {
   const navigate = useNavigate();

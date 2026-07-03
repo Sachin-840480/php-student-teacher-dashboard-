@@ -1,5 +1,5 @@
 import { Menu } from "lucide-react";
-import styles from "../modules/Navbar.module.css";
+import styles from "../styles/Navbar.module.css";
 
 function Navbar({ setOpen }) {
 

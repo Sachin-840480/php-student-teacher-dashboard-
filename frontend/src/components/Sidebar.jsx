@@ -31,7 +31,7 @@ function Sidebar({ open, setOpen }) {
 
         <NavLink to="/dashboard">
           <Home size={18} />
-          <span>Dashboard</span>
+          <span>Home</span>
         </NavLink>
 
         <NavLink to="/students">

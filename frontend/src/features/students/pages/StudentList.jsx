@@ -8,7 +8,7 @@ import styles from "../styles/StudentList.module.css";
 import {
   getStudents,
   deleteStudent,
-} from "../services/api";
+} from "../../../services/api";
 
 function StudentList() {
   const navigate = useNavigate();

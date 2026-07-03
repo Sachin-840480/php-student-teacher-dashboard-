@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import {
   addStudent,
   updateStudent,
-} from "../services/api";
+} from "../../../services/api";
 import toast from "react-hot-toast";
 import styles from "../styles/AddStudent.module.css";
 import Layout from "../../../components/common/Layout";

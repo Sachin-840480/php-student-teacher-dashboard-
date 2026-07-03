@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getStudents, markAttendance } from "../services/api";
+import { getStudents, markAttendance } from "../../../services/api";
 import styles from "../styles/Attendance.module.css";
 import toast from "react-hot-toast";
 import Layout from "../../../components/common/Layout";

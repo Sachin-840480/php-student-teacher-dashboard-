@@ -10,6 +10,7 @@ import {
   ChevronDown,
   ChevronRight,
   X,
+  List,
 } from "lucide-react";
 
 import styles from "../modules/Sidebar.module.css";
@@ -92,7 +93,8 @@ function Sidebar({ open, setOpen }) {
               }
               onClick={() => setOpen(false)}
             >
-              Student List
+              <List size={16} />
+              <span>Student List</span>
             </NavLink>
           </div>
         </div>
@@ -136,7 +138,8 @@ function Sidebar({ open, setOpen }) {
               }
               onClick={() => setOpen(false)}
             >
-              Teacher List
+              <List size={16} />
+              <span>Teacher List</span>
             </NavLink>
           </div>
         </div>

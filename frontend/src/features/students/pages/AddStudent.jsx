@@ -5,8 +5,8 @@ import {
   updateStudent,
 } from "../services/api";
 import toast from "react-hot-toast";
-import styles from "../modules/AddStudent.module.css";
-import Layout from "../components/Layout";
+import styles from "../styles/AddStudent.module.css";
+import Layout from "../../../components/common/Layout";
 
 function AddStudent() {
   const navigate = useNavigate();

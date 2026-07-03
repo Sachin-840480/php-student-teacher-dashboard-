@@ -2,8 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
-import Layout from "../components/Layout";
-import styles from "../modules/StudentList.module.css";
+import Layout from "../../../components/common/Layout";
+import styles from "../styles/StudentList.module.css";
 
 import {
   getStudents,

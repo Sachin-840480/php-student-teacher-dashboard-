@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-import styles from "../modules/Dashboard.module.css";
-import Layout from "../components/Layout";
+import styles from "../styles/Dashboard.module.css";
+import Layout from "../../../components/common/Layout";
 
 function Dashboard() {
   const navigate = useNavigate();

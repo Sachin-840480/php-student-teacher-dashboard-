@@ -3,13 +3,13 @@
 require_once "../config/cors.php";
 include("../config/database.php");
 
-$method=$_SERVER['REQUEST_METHOD'];
+$method = $_SERVER['REQUEST_METHOD'];
 
-switch($method){
+switch ($method) {
 
-case "GET":
+    case "GET":
 
-$sql="SELECT
+        $sql = "SELECT
 students.student_id,
 students.student_name,
 students.fee AS total_fee,
@@ -20,47 +20,44 @@ LEFT JOIN fee_payments
 ON students.student_id=fee_payments.student_id
 GROUP BY students.student_id";
 
-$result=$conn->query($sql);
+        $result = $conn->query($sql);
 
-$data=[];
+        $data = [];
 
-while($row=$result->fetch_assoc()){
-$data[]=$row;
-}
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
 
-echo json_encode($data);
+        echo json_encode($data);
 
-break;
+        break;
 
-case "POST":
+    case "POST":
 
-$data=json_decode(file_get_contents("php://input"),true);
+        $data = json_decode(file_get_contents("php://input"), true);
 
-$total=$data['total_fee'];
+        $total = $data['total_fee'];
 
-$stmt=$conn->prepare("INSERT INTO fee_payments(student_id,total_fee,paid_fee,payment_date,remarks)
+        $stmt = $conn->prepare("INSERT INTO fee_payments(student_id,total_fee,paid_fee,payment_date,remarks)
 VALUES(?,?,?,?,?)");
 
-$stmt->bind_param(
-"iddss",
-$data['student_id'],
-$total,
-$data['paid_fee'],
-$data['payment_date'],
-$data['remarks']
-);
+        $stmt->bind_param(
+            "iddss",
+            $data['student_id'],
+            $total,
+            $data['paid_fee'],
+            $data['payment_date'],
+            $data['remarks']
+        );
 
-$stmt->execute();
+        $stmt->execute();
 
-echo json_encode([
-"success"=>true,
-"message"=>"Payment Saved"
-]);
+        echo json_encode([
+            "success" => true,
+            "message" => "Payment Saved"
+        ]);
 
-break;
-
+        break;
 }
 
 $conn->close();
-
-?>

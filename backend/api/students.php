@@ -9,24 +9,23 @@ switch ($method) {
 
     case "GET":
 
-        if(isset($_GET["id"])){
+        if (isset($_GET["id"])) {
 
-            $stmt=$conn->prepare("SELECT * FROM students WHERE student_id=?");
-            $stmt->bind_param("i",$_GET["id"]);
+            $stmt = $conn->prepare("SELECT * FROM students WHERE student_id=?");
+            $stmt->bind_param("i", $_GET["id"]);
             $stmt->execute();
 
-            $result=$stmt->get_result();
+            $result = $stmt->get_result();
 
             echo json_encode($result->fetch_assoc());
+        } else {
 
-        }else{
+            $result = $conn->query("SELECT * FROM students ORDER BY student_name");
 
-            $result=$conn->query("SELECT * FROM students ORDER BY student_name");
+            $students = [];
 
-            $students=[];
-
-            while($row=$result->fetch_assoc()){
-                $students[]=$row;
+            while ($row = $result->fetch_assoc()) {
+                $students[] = $row;
             }
 
             echo json_encode($students);
@@ -66,13 +65,11 @@ switch ($method) {
                 "success" => true,
                 "message" => "Student Added"
             ]);
-
         } else {
 
             echo json_encode([
                 "success" => false
             ]);
-
         }
 
         break;
@@ -119,7 +116,6 @@ switch ($method) {
                 "success" => true,
                 "message" => "Student Updated"
             ]);
-
         }
 
         break;
@@ -138,12 +134,9 @@ switch ($method) {
                 "success" => true,
                 "message" => "Student Deleted"
             ]);
-
         }
 
         break;
 }
 
 $conn->close();
-
-?>

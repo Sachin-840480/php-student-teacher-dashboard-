@@ -16,7 +16,11 @@ const videoConstraints = {
 };
 
 export default function FaceAttendance() {
-  const check = console.log(window.isSecureContext); //
+  const [logs, setLogs] = useState([]);
+
+  const addLog = (msg) => {
+    setLogs((prev) => [...prev, `${new Date().toLocaleTimeString()} - ${msg}`]);
+  };
 
   const webcamRef = useRef(null);
 
@@ -29,16 +33,16 @@ export default function FaceAttendance() {
   // };
 
   const capture = () => {
-    console.log("Capture clicked");
+  addLog("Capture clicked");
 
     if (!webcamRef.current) {
-      console.log("No webcam ref");
+      addLog("No webcam ref");
       return;
     }
 
     const img = webcamRef.current.getScreenshot();
 
-    console.log(img);
+    addLog("Image captured");
 
     setImage(img);
   };
@@ -48,8 +52,8 @@ export default function FaceAttendance() {
   };
 
   useEffect(() => {
-    console.log(webcamRef.current);
-}, []);
+    addLog("Component mounted");
+  }, []);
 
   const submitAttendance = () => {
     navigator.geolocation.getCurrentPosition(async (position) => {
@@ -77,8 +81,7 @@ export default function FaceAttendance() {
 
         toast.success(res.data.message);
       } catch (err) {
-        console.log(err);
-
+        addLog("Error submitting attendance");
         toast.error("Attendance Failed");
       } finally {
         setLoading(false);
@@ -89,8 +92,7 @@ export default function FaceAttendance() {
   return (
     <Layout>
       <div className={styles.container}>
-        <h1>Face Attendance {check}</h1> {/*check*/}
-
+        <h1>Face Attendance </h1> {/*check*/}
         {!image ? (
           <>
             {/* <Webcam
@@ -105,8 +107,8 @@ export default function FaceAttendance() {
               screenshotFormat="image/jpeg"
               videoConstraints={videoConstraints}
               ref={webcamRef}
-              onUserMedia={() => console.log("Camera started")}
-              onUserMediaError={(e) => console.log(e)}
+              onUserMedia={() => addLog("Camera started")}
+              onUserMediaError={(e) => addLog("Error accessing camera")}
             />
 
             <button onClick={capture} className={styles.button}>
@@ -126,6 +128,22 @@ export default function FaceAttendance() {
             </div>
           </>
         )}
+      </div>
+      <div
+        style={{
+          marginTop: 20,
+          padding: 10,
+          background: "#111",
+          color: "#0f0",
+          fontSize: 12,
+          maxHeight: 250,
+          overflow: "auto",
+          whiteSpace: "pre-wrap",
+        }}
+      >
+        {logs.map((log, i) => (
+          <div key={i}>{log}</div>
+        ))}
       </div>
     </Layout>
   );

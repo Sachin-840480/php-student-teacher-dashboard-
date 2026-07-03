@@ -1,74 +1,5 @@
-// import { X } from "lucide-react";
-// import { NavLink } from "react-router-dom";
-// import styles from "../modules/Sidebar.module.css";
-
-// import {
-//   Home,
-//   Users,
-//   UserCog,
-//   Wallet,
-//   CalendarCheck,
-//   LogOut,
-// } from "lucide-react";
-
-// function Sidebar({ open, setOpen }) {
-//   return (
-//     <>
-//       <div
-//         className={`${styles.overlay} ${open ? styles.showOverlay : ""}`}
-//         onClick={() => setOpen(false)}
-//       />
-
-//       <aside
-//         className={`${styles.sidebar}
-//             ${open ? styles.show : ""}`}
-//       >
-//         <button className={styles.close} onClick={() => setOpen(false)}>
-//           <X size={22} />
-//         </button>
-
-//         <h2>Dashboard</h2>
-
-//         <NavLink to="/dashboard">
-//           <Home size={18} />
-//           <span>Home</span>
-//         </NavLink>
-
-//         <NavLink to="/students">
-//           <Users size={18} />
-//           <span>Students</span>
-//         </NavLink>
-
-//         <NavLink to="/teachers">
-//           <UserCog size={18} />
-//           <span>Teachers</span>
-//         </NavLink>
-
-//         <NavLink to="/fees">
-//           <Wallet size={18} />
-//           <span>Fee Status</span>
-//         </NavLink>
-
-//         <NavLink to="/attendance">
-//           <CalendarCheck size={18} />
-//           <span>Attendance</span>
-//         </NavLink>
-
-//         <button className={styles.logout}>
-//           <LogOut size={18} />
-//           <span>Logout</span>
-//         </button>
-//       </aside>
-//     </>
-//   );
-// }
-
-// export default Sidebar;
-
-
-
-import { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import {
   Home,
   Users,
@@ -85,11 +16,22 @@ import styles from "../modules/Sidebar.module.css";
 
 function Sidebar({ open, setOpen }) {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [menu, setMenu] = useState("");
 
+  useEffect(() => {
+    if (location.pathname.startsWith("/students")) {
+      setMenu("students");
+    } else if (location.pathname.startsWith("/teachers")) {
+      setMenu("teachers");
+    } else {
+      setMenu("");
+    }
+  }, [location.pathname]);
+
   const toggleMenu = (value) => {
-    setMenu(menu === value ? "" : value);
+    setMenu((prev) => (prev === value ? "" : value));
   };
 
   return (
@@ -106,7 +48,7 @@ function Sidebar({ open, setOpen }) {
 
         <h2>Dashboard</h2>
 
-        <NavLink to="/dashboard">
+        <NavLink to="/dashboard" onClick={() => setOpen(false)}>
           <Home size={18} />
           <span>Home</span>
         </NavLink>
@@ -117,7 +59,10 @@ function Sidebar({ open, setOpen }) {
           <div className={styles.menuHeader}>
             <button
               className={styles.menuLink}
-              onClick={() => navigate("/students")}
+              onClick={() => {
+                navigate("/students");
+                setOpen(false);
+              }}
             >
               <Users size={18} />
               <span>Students</span>
@@ -135,14 +80,21 @@ function Sidebar({ open, setOpen }) {
             </button>
           </div>
 
-          {menu === "students" && (
+          <div
+            className={`${styles.subMenuWrapper} ${
+              menu === "students" ? styles.open : ""
+            }`}
+          >
             <NavLink
               to="/students/list"
-              className={styles.subMenu}
+              className={({ isActive }) =>
+                `${styles.subMenu} ${isActive ? styles.activeSubMenu : ""}`
+              }
+              onClick={() => setOpen(false)}
             >
               Student List
             </NavLink>
-          )}
+          </div>
         </div>
 
         {/* Teachers */}
@@ -151,7 +103,10 @@ function Sidebar({ open, setOpen }) {
           <div className={styles.menuHeader}>
             <button
               className={styles.menuLink}
-              onClick={() => navigate("/teachers")}
+              onClick={() => {
+                navigate("/teachers");
+                setOpen(false);
+              }}
             >
               <UserCog size={18} />
               <span>Teachers</span>
@@ -169,22 +124,29 @@ function Sidebar({ open, setOpen }) {
             </button>
           </div>
 
-          {menu === "teachers" && (
+          <div
+            className={`${styles.subMenuWrapper} ${
+              menu === "teachers" ? styles.open : ""
+            }`}
+          >
             <NavLink
               to="/teachers/list"
-              className={styles.subMenu}
+              className={({ isActive }) =>
+                `${styles.subMenu} ${isActive ? styles.activeSubMenu : ""}`
+              }
+              onClick={() => setOpen(false)}
             >
               Teacher List
             </NavLink>
-          )}
+          </div>
         </div>
 
-        <NavLink to="/fees">
+        <NavLink to="/fees" onClick={() => setOpen(false)}>
           <Wallet size={18} />
           <span>Fee Status</span>
         </NavLink>
 
-        <NavLink to="/attendance">
+        <NavLink to="/attendance" onClick={() => setOpen(false)}>
           <CalendarCheck size={18} />
           <span>Attendance</span>
         </NavLink>

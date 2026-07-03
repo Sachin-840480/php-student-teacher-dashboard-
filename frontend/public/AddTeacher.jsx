@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   addTeacher,
+  getTeachers,
   updateTeacher,
+  deleteTeacher,
 } from "../services/api";
 import toast from "react-hot-toast";
 import styles from "../modules/AddTeacher.module.css";
@@ -10,8 +12,6 @@ import Layout from "../components/Layout";
 
 function AddTeacher() {
   const navigate = useNavigate();
-  const location = useLocation();
-
   const initialState = {
     teacher_id: "",
     teacher_name: "",
@@ -22,14 +22,22 @@ function AddTeacher() {
   };
 
   const [form, setForm] = useState(initialState);
+  const [teachers, setTeachers] = useState([]);
   const [editing, setEditing] = useState(false);
 
   useEffect(() => {
-    if (location.state?.editing) {
-      setEditing(true);
-      setForm(location.state.teacher);
+    loadTeachers();
+  }, []);
+
+  const loadTeachers = async () => {
+    try {
+      const res = await getTeachers();
+      setTeachers(res.data);
+    } catch (err) {
+      console.error(err);
+      toast.error("Unable to load teachers.");
     }
-  }, [location.state]);
+  };
 
   const handleChange = (e) => {
     setForm({
@@ -41,11 +49,6 @@ function AddTeacher() {
   const clearForm = () => {
     setForm(initialState);
     setEditing(false);
-
-    navigate("/teachers", {
-      replace: true,
-      state: null,
-    });
   };
 
   const handleSubmit = async (e) => {
@@ -61,23 +64,42 @@ function AddTeacher() {
       }
 
       clearForm();
+      loadTeachers();
     } catch (err) {
       console.error(err);
       toast.error("Operation Failed");
     }
   };
 
+  const handleEdit = (teacher) => {
+    setEditing(true);
+    setForm(teacher);
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("Delete this teacher?")) return;
+
+    try {
+      await deleteTeacher(id);
+      loadTeachers();
+    } catch (err) {
+      console.error(err);
+      toast.error("Delete Failed");
+    }
+  };
+
   return (
     <Layout>
       <div className={styles.container}>
-        <button
-          className={styles.backBtn}
-          onClick={() => navigate(-1)}
-        >
+        <button className={styles.backBtn} onClick={() => navigate(-1)}>
           ← Back
         </button>
-
-        <h1>{editing ? "Update Teacher" : "Add Teacher"}</h1>
+        <h1>Add Teacher</h1>
 
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.grid}>
@@ -155,6 +177,57 @@ function AddTeacher() {
             )}
           </div>
         </form>
+
+        <div className={styles.tableContainer}>
+          <h2>Teacher List</h2>
+
+          <div className={styles.tableWrapper}>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Mobile</th>
+                  <th>Subject</th>
+                  <th>Salary</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {teachers.length === 0 ? (
+                  <tr>
+                    <td colSpan="5">No Teachers Found</td>
+                  </tr>
+                ) : (
+                  teachers.map((teacher) => (
+                    <tr key={teacher.teacher_id}>
+                      <td>{teacher.teacher_name}</td>
+                      <td>{teacher.mobile}</td>
+                      <td>{teacher.subject}</td>
+                      <td>₹ {teacher.salary}</td>
+
+                      <td>
+                        <button
+                          className={styles.edit}
+                          onClick={() => handleEdit(teacher)}
+                        >
+                          Edit
+                        </button>
+
+                        <button
+                          className={styles.delete}
+                          onClick={() => handleDelete(teacher.teacher_id)}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </Layout>
   );

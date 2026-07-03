@@ -170,3 +170,76 @@
 .subMenu.active {
   background: #2563eb;
 }
+
+.menuItem {
+  margin-bottom: 10px;
+}
+
+.menuHeader {
+  display: flex;
+  align-items: center;
+}
+
+.menuLink {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  text-align: left;
+}
+
+.menuLink:hover {
+  background: #2563eb;
+}
+
+.arrow {
+  width: 42px;
+  height: 42px;
+  border: none;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.arrow:hover {
+  background: #2563eb;
+}
+
+.subMenuWrapper {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.open {
+  max-height: 80px;
+}
+
+.subMenu {
+  display: block;
+  margin-left: 45px;
+  padding: 10px 14px;
+  text-decoration: none;
+  color: #d1d5db;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+
+.subMenu:hover {
+  background: #2563eb;
+  color: white;
+}
+
+.activeSubMenu {
+  background: #2563eb;
+  color: white;
+}

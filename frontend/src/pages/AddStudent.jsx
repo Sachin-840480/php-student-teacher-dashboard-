@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   addStudent,
-  getStudents,
   updateStudent,
-  deleteStudent,
 } from "../services/api";
 import toast from "react-hot-toast";
 import styles from "../modules/AddStudent.module.css";
@@ -12,6 +10,8 @@ import Layout from "../components/Layout";
 
 function AddStudent() {
   const navigate = useNavigate();
+  const location = useLocation();
+
   const initialState = {
     student_id: "",
     student_name: "",
@@ -24,22 +24,14 @@ function AddStudent() {
   };
 
   const [form, setForm] = useState(initialState);
-  const [students, setStudents] = useState([]);
   const [editing, setEditing] = useState(false);
 
   useEffect(() => {
-    loadStudents();
-  }, []);
-
-  const loadStudents = async () => {
-    try {
-      const res = await getStudents();
-      setStudents(res.data);
-    } catch (err) {
-      console.error(err);
-      toast("Unable to load students.");
+    if (location.state?.editing) {
+      setEditing(true);
+      setForm(location.state.student);
     }
-  };
+  }, [location.state]);
 
   const handleChange = (e) => {
     setForm({
@@ -51,6 +43,11 @@ function AddStudent() {
   const clearForm = () => {
     setForm(initialState);
     setEditing(false);
+
+    navigate("/students", {
+      replace: true,
+      state: null,
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -66,46 +63,23 @@ function AddStudent() {
       }
 
       clearForm();
-      loadStudents();
     } catch (err) {
       console.error(err);
       toast.error("Operation Failed");
     }
   };
 
-  const handleEdit = (student) => {
-    setEditing(true);
-    setForm(student);
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
-  const handleDelete = async (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this student?",
-    );
-
-    if (!confirmDelete) return;
-
-    try {
-      await deleteStudent(id);
-      loadStudents();
-    } catch (err) {
-      console.error(err);
-      toast.error("Delete Failed");
-    }
-  };
-
   return (
     <Layout>
       <div className={styles.container}>
-        <button className={styles.backBtn} onClick={() => navigate(-1)}>
+        <button
+          className={styles.backBtn}
+          onClick={() => navigate(-1)}
+        >
           ← Back
         </button>
-        <h1>Add Student</h1>
+
+        <h1>{editing ? "Update Student" : "Add Student"}</h1>
 
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.grid}>
@@ -209,58 +183,6 @@ function AddStudent() {
             )}
           </div>
         </form>
-
-        <div className={styles.tableContainer}>
-          <h2>Student List</h2>
-          <div className={styles.tableWrapper}>
-            <table>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Father</th>
-                  <th>Mobile</th>
-                  <th>Activity</th>
-                  <th>Fee</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {students.length === 0 ? (
-                  <tr>
-                    <td colSpan="6">No Students Found</td>
-                  </tr>
-                ) : (
-                  students.map((student) => (
-                    <tr key={student.student_id}>
-                      <td>{student.student_name}</td>
-                      <td>{student.father_name}</td>
-                      <td>{student.mobile}</td>
-                      <td>{student.activity}</td>
-                      <td>₹ {student.fee}</td>
-
-                      <td>
-                        <button
-                          className={styles.edit}
-                          onClick={() => handleEdit(student)}
-                        >
-                          Edit
-                        </button>
-
-                        <button
-                          className={styles.delete}
-                          onClick={() => handleDelete(student.student_id)}
-                        >
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
       </div>
     </Layout>
   );

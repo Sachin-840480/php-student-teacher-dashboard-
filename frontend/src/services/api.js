@@ -67,4 +67,11 @@ export const getAttendance = () =>
 export const markAttendance = (data) =>
     api.post("/attendance.php", data);
 
+export const faceAttendance = (formData) =>
+    api.post("/faceAttendance.php", formData, {
+        headers: {
+            "Content-Type": "multipart/form-data",
+        },
+    });
+
 export default api;

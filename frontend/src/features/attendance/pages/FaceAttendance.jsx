@@ -11,9 +11,14 @@ import axios from "axios";
 //     facingMode: "user"
 // };
 
+// const videoConstraints = {
+//   facingMode: "environment",
+// };
+
 const videoConstraints = {
-  facingMode: "environment",
+  facingMode: "user",
 };
+
 
 export default function FaceAttendance() {
   const [logs, setLogs] = useState([]);

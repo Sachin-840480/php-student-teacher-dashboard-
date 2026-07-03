@@ -33,7 +33,7 @@ export default function FaceAttendance() {
   // };
 
   const capture = () => {
-  addLog("Capture clicked");
+    addLog("Capture clicked");
 
     if (!webcamRef.current) {
       addLog("No webcam ref");
@@ -51,9 +51,15 @@ export default function FaceAttendance() {
     setImage(null);
   };
 
+  // useEffect(() => {
+  //   addLog("Component mounted");
+  // }, []);
   useEffect(() => {
-    addLog("Component mounted");
-  }, []);
+  addLog("Secure Context: " + window.isSecureContext);
+  addLog("Protocol: " + window.location.protocol);
+  addLog("MediaDevices: " + !!navigator.mediaDevices);
+  addLog("getUserMedia: " + !!navigator.mediaDevices?.getUserMedia);
+}, []);
 
   const submitAttendance = () => {
     navigator.geolocation.getCurrentPosition(async (position) => {
@@ -103,14 +109,20 @@ export default function FaceAttendance() {
                         /> */}
 
             <Webcam
+              ref={webcamRef}
               audio={false}
               screenshotFormat="image/jpeg"
               videoConstraints={videoConstraints}
-              ref={webcamRef}
-              onUserMedia={() => addLog("Camera started")}
-              onUserMediaError={(e) => addLog("Error accessing camera")}
+              onUserMedia={() => {
+                addLog("Camera started");
+              }}
+              onUserMediaError={(err) => {
+                addLog(`Error: ${err.name}`);
+                addLog(`Message: ${err.message}`);
+                addLog(JSON.stringify(err));
+                console.error(err);
+              }}
             />
-
             <button onClick={capture} className={styles.button}>
               Capture
             </button>

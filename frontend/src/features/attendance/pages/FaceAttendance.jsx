@@ -1,138 +1,132 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import Webcam from "react-webcam";
 import Layout from "../../../components/common/Layout";
 import styles from "../styles/FaceAttendance.module.css";
 import toast from "react-hot-toast";
 import axios from "axios";
 
+// const videoConstraints = {
+//     width: 720,
+//     height: 720,
+//     facingMode: "user"
+// };
+
 const videoConstraints = {
-    width: 720,
-    height: 720,
-    facingMode: "user"
+  facingMode: "environment",
 };
 
 export default function FaceAttendance() {
+  const check = console.log(window.isSecureContext); //
 
-    const webcamRef = useRef(null);
+  const webcamRef = useRef(null);
 
-    const [image, setImage] = useState(null);
-    const [loading, setLoading] = useState(false);
+  const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-    const capture = () => {
-        const img = webcamRef.current.getScreenshot();
-        setImage(img);
-    };
+  // const capture = () => {
+  //     const img = webcamRef.current.getScreenshot();
+  //     setImage(img);
+  // };
 
-    const retake = () => {
-        setImage(null);
-    };
+  const capture = () => {
+    console.log("Capture clicked");
 
-    const submitAttendance = () => {
+    if (!webcamRef.current) {
+      console.log("No webcam ref");
+      return;
+    }
 
-        navigator.geolocation.getCurrentPosition(async (position) => {
+    const img = webcamRef.current.getScreenshot();
 
-            try {
+    console.log(img);
 
-                setLoading(true);
+    setImage(img);
+  };
 
-                const blob = await fetch(image).then(r => r.blob());
+  const retake = () => {
+    setImage(null);
+  };
 
-                const formData = new FormData();
+  useEffect(() => {
+    console.log(webcamRef.current);
+}, []);
 
-                formData.append("image", blob, "attendance.jpg");
+  const submitAttendance = () => {
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      try {
+        setLoading(true);
 
-                // temporary values
-                formData.append("employee_code", "EMP001");
-                formData.append("company_key", "YOUR_COMPANY_KEY");
-                formData.append("type", "IN");
+        const blob = await fetch(image).then((r) => r.blob());
 
-                formData.append("latitude", position.coords.latitude);
-                formData.append("longitude", position.coords.longitude);
+        const formData = new FormData();
 
-                const res = await axios.post(
-                    "http://localhost/backend/api/faceAttendance.php",
-                    formData
-                );
+        formData.append("image", blob, "attendance.jpg");
 
-                toast.success(res.data.message);
+        // temporary values
+        formData.append("employee_code", "EMP001");
+        formData.append("company_key", "YOUR_COMPANY_KEY");
+        formData.append("type", "IN");
 
-            } catch (err) {
+        formData.append("latitude", position.coords.latitude);
+        formData.append("longitude", position.coords.longitude);
 
-                console.log(err);
+        const res = await axios.post(
+          "http://localhost/backend/api/faceAttendance.php",
+          formData,
+        );
 
-                toast.error("Attendance Failed");
+        toast.success(res.data.message);
+      } catch (err) {
+        console.log(err);
 
-            } finally {
+        toast.error("Attendance Failed");
+      } finally {
+        setLoading(false);
+      }
+    });
+  };
 
-                setLoading(false);
+  return (
+    <Layout>
+      <div className={styles.container}>
+        <h1>Face Attendance {check}</h1> {/*check*/}
 
-            }
-
-        });
-
-    };
-
-    return (
-
-        <Layout>
-
-            <div className={styles.container}>
-
-                <h1>Face Attendance</h1>
-
-                {!image ? (
-
-                    <>
-                        <Webcam
+        {!image ? (
+          <>
+            {/* <Webcam
                             ref={webcamRef}
                             screenshotFormat="image/jpeg"
                             videoConstraints={videoConstraints}
                             className={styles.camera}
-                        />
+                        /> */}
 
-                        <button
-                            onClick={capture}
-                            className={styles.button}
-                        >
-                            Capture
-                        </button>
+            <Webcam
+              audio={false}
+              screenshotFormat="image/jpeg"
+              videoConstraints={videoConstraints}
+              ref={webcamRef}
+              onUserMedia={() => console.log("Camera started")}
+              onUserMediaError={(e) => console.log(e)}
+            />
 
-                    </>
+            <button onClick={capture} className={styles.button}>
+              Capture
+            </button>
+          </>
+        ) : (
+          <>
+            <img src={image} className={styles.preview} />
 
-                ) : (
+            <div className={styles.buttons}>
+              <button onClick={retake}>Retake</button>
 
-                    <>
-
-                        <img
-                            src={image}
-                            className={styles.preview}
-                        />
-
-                        <div className={styles.buttons}>
-
-                            <button
-                                onClick={retake}
-                            >
-                                Retake
-                            </button>
-
-                            <button
-                                onClick={submitAttendance}
-                                disabled={loading}
-                            >
-                                {loading ? "Submitting..." : "Submit"}
-                            </button>
-
-                        </div>
-
-                    </>
-
-                )}
-
+              <button onClick={submitAttendance} disabled={loading}>
+                {loading ? "Submitting..." : "Submit"}
+              </button>
             </div>
-
-        </Layout>
-
-    );
-
+          </>
+        )}
+      </div>
+    </Layout>
+  );
 }

@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import styles from "../modules/Login.module.css";
+import styles from "../styles/Login.module.css";
 
-import { login } from "../services/api";
+import { login } from "../../../services/api";
 import toast from "react-hot-toast";
 
 function Login() {

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Sidebar from "./Sidebar";
 import Navbar from "../layout/Navbar";
-import styles from "../modules/Layout.module.css";
+import styles from "../styles/Layout.module.css";
 import Footer from "../layout/Footer";
 
 function Layout({ children }) {

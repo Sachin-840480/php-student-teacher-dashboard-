@@ -3,10 +3,10 @@ import { useNavigate, useLocation } from "react-router-dom";
 import {
   addTeacher,
   updateTeacher,
-} from "../services/api";
+} from "../../../services/api";
 import toast from "react-hot-toast";
-import styles from "../modules/AddTeacher.module.css";
-import Layout from "../components/Layout";
+import styles from "../styles/AddTeacher.module.css";
+import Layout from "../../../components/common/Layout";
 
 function AddTeacher() {
   const navigate = useNavigate();

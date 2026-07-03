@@ -13,7 +13,7 @@ import {
   List,
 } from "lucide-react";
 
-import styles from "../modules/Sidebar.module.css";
+import styles from "../styles/Sidebar.module.css";
 
 function Sidebar({ open, setOpen }) {
   const navigate = useNavigate();

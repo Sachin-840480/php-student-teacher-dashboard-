@@ -1,4 +1,4 @@
-import styles from "../../modules/FeeStatus.module.css";
+import styles from "../styles/FeeStatus.module.css";
 
 function FeePaymentForm({
   form,

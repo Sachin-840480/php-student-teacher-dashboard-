@@ -1,15 +1,15 @@
 import { useState } from "react";
-import Layout from "../components/Layout";
-import FeePaymentForm from "../components/fee/FeePaymentForm";
-import FeeTable from "../components/fee/FeeTable";
+import Layout from "../../../components/common/Layout";
+import FeePaymentForm from "../components/FeePaymentForm";
+import FeeTable from "../components/FeeTable";
 
-import styles from "../modules/FeeStatus.module.css";
+import styles from "../styles/FeeStatus.module.css";
 
 import feeInitialState from "../constants/feeInitialState";
 
 import useFees from "../hooks/useFees";
 import { selectStudent } from "../utils/feeHelpers";
-import { addFeePayment } from "../services/api";
+import { addFeePayment } from "../../../services/api";
 
 import toast from "react-hot-toast";
 

@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
-import styles from "../../modules/FeeStatus.module.css";
+import styles from "../styles/FeeStatus.module.css";
 
 function FeeTable({ fees, handleStudent }) {
   const [search, setSearch] = useState("");

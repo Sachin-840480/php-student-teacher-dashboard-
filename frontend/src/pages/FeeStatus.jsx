@@ -6,6 +6,7 @@ import FeeTable from "../components/fee/FeeTable";
 import styles from "../modules/FeeStatus.module.css";
 
 import feeInitialState from "../constants/feeInitialState";
+
 import useFees from "../hooks/useFees";
 import { selectStudent } from "../utils/feeHelpers";
 import { addFeePayment } from "../services/api";
@@ -13,7 +14,7 @@ import { addFeePayment } from "../services/api";
 import toast from "react-hot-toast";
 
 function FeeStatus() {
-  const { fees, loadFees } = useFees();
+  const { fees, loading, loadFees } = useFees();
 
   const [form, setForm] = useState(feeInitialState);
 
@@ -27,6 +28,16 @@ function FeeStatus() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!form.student_id) {
+      toast.error("Please select a student.");
+      return;
+    }
+
+    if (!form.paid_fee || Number(form.paid_fee) <= 0) {
+      toast.error("Enter a valid payment amount.");
+      return;
+    }
+
     try {
       await addFeePayment(form);
 
@@ -35,16 +46,26 @@ function FeeStatus() {
       setForm(feeInitialState);
 
       loadFees();
-
-    } catch {
+    } catch (err) {
+      console.error(err);
       toast.error("Payment Failed");
     }
   };
 
+  const handleStudent = (student) => {
+    selectStudent(student, setForm);
+  };
+
+  if (loading) {
+    return (
+      <Layout>
+        <div className={styles.loading}>Loading...</div>
+      </Layout>
+    );
+  }
   return (
     <Layout>
       <div className={styles.container}>
-
         <h1>Fee Management</h1>
 
         {form.student_id ? (
@@ -63,13 +84,11 @@ function FeeStatus() {
           </div>
         )}
 
-        <FeeTable
-          fees={fees}
-          handleStudent={(student) =>
-            selectStudent(student, setForm)
-          }
-        />
-
+        {/* <FeeTable
+            fees={fees}
+            handleStudent={(student) => selectStudent(student, setForm)}
+          /> */}
+        <FeeTable fees={fees} handleStudent={handleStudent} />
       </div>
     </Layout>
   );

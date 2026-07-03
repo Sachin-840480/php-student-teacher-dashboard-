@@ -27,7 +27,7 @@ function Sidebar({ open, setOpen }) {
           <X size={22} />
         </button>
 
-        <h2>Dashboard</h2>
+        <h2>Home</h2>
 
         <NavLink to="/dashboard">
           <Home size={18} />

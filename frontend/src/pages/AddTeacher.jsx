@@ -181,50 +181,52 @@ function AddTeacher() {
         <div className={styles.tableContainer}>
           <h2>Teacher List</h2>
 
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Mobile</th>
-                <th>Subject</th>
-                <th>Salary</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {teachers.length === 0 ? (
+          <div className={styles.tableWrapper}>
+            <table>
+              <thead>
                 <tr>
-                  <td colSpan="5">No Teachers Found</td>
+                  <th>Name</th>
+                  <th>Mobile</th>
+                  <th>Subject</th>
+                  <th>Salary</th>
+                  <th>Action</th>
                 </tr>
-              ) : (
-                teachers.map((teacher) => (
-                  <tr key={teacher.teacher_id}>
-                    <td>{teacher.teacher_name}</td>
-                    <td>{teacher.mobile}</td>
-                    <td>{teacher.subject}</td>
-                    <td>₹ {teacher.salary}</td>
+              </thead>
 
-                    <td>
-                      <button
-                        className={styles.edit}
-                        onClick={() => handleEdit(teacher)}
-                      >
-                        Edit
-                      </button>
-
-                      <button
-                        className={styles.delete}
-                        onClick={() => handleDelete(teacher.teacher_id)}
-                      >
-                        Delete
-                      </button>
-                    </td>
+              <tbody>
+                {teachers.length === 0 ? (
+                  <tr>
+                    <td colSpan="5">No Teachers Found</td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                ) : (
+                  teachers.map((teacher) => (
+                    <tr key={teacher.teacher_id}>
+                      <td>{teacher.teacher_name}</td>
+                      <td>{teacher.mobile}</td>
+                      <td>{teacher.subject}</td>
+                      <td>₹ {teacher.salary}</td>
+
+                      <td>
+                        <button
+                          className={styles.edit}
+                          onClick={() => handleEdit(teacher)}
+                        >
+                          Edit
+                        </button>
+
+                        <button
+                          className={styles.delete}
+                          onClick={() => handleDelete(teacher.teacher_id)}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </Layout>
